@@ -75,6 +75,17 @@
   )
 )
 
+;; Remove authorized assessor - **New Enhancement**
+(define-public (revoke-assessor (assessor principal))
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT_OWNER) ERR_UNAUTHORIZED)
+    (ok (map-set authorized-assessors
+      { assessor: assessor }
+      { authorized: false, added-at: stacks-block-height }
+    ))
+  )
+)
+
 ;; Read-only functions
 
 ;; Get protocol risk score
